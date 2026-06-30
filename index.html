@@ -6,7 +6,7 @@
   <title>Gods Above — Rpg de Grandes stratégie entre amis</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Raleway:wght@300;400;500;600&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Raleway:wght@300;400;500;600&family=Cinzel+Decorative:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 
   <style>
     /* ─── RESET & TOKENS ─── */
@@ -23,6 +23,7 @@
       --text-muted: #8FA8C0;
       --accent: #8FA8C0;
       --danger: #C45C5C;
+      --mono: 'JetBrains Mono', monospace;
     }
     html { scroll-behavior: smooth; }
     body {
@@ -176,6 +177,17 @@
         #0A0B0F;
     }
 
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(143,168,192,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(143,168,192,0.05) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 0%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 0%, transparent 75%);
+      opacity: 0.5;
+    }
+
     .hero-stars {
       position: absolute; inset: 0;
       background-image:
@@ -237,6 +249,100 @@
       line-height: 1.8;
       margin: 0 auto 48px;
       opacity: 0.85;
+    }
+
+    .hero-ctas {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    }
+
+    /* ─── TENSION GAUGE (instrument état-major) ─── */
+    .tension-panel {
+      position: relative;
+      width: min(420px, 100%);
+      margin: 0 auto 44px;
+      padding: 18px 24px 16px;
+      border: 1px solid var(--border);
+      background: rgba(18,19,26,0.5);
+      backdrop-filter: blur(2px);
+    }
+    .tension-corner {
+      position: absolute;
+      width: 10px; height: 10px;
+      border: 1px solid var(--gold-dim);
+      opacity: 0.8;
+    }
+    .tension-corner.tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+    .tension-corner.tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+    .tension-corner.bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+    .tension-corner.br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+    .tension-header {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .tension-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .tension-value {
+      font-family: var(--mono);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+
+    .tension-bar {
+      position: relative;
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+    .tension-bar-fill {
+      position: relative;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--gold) 60%, var(--danger));
+      transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .tension-bar-fill::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+      width: 40px;
+      animation: tensionScan 2.6s ease-in-out infinite;
+    }
+    @keyframes tensionScan {
+      0%   { transform: translateX(-40px); opacity: 0; }
+      15%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { transform: translateX(380px); opacity: 0; }
+    }
+    .tension-ticks {
+      display: flex; justify-content: space-between;
+      margin-top: 2px;
+    }
+    .tension-ticks span {
+      width: 1px; height: 4px;
+      background: var(--border);
+    }
+
+    .tension-thresholds {
+      display: flex; justify-content: space-between;
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .tension-thresholds span { transition: color 0.4s ease, text-shadow 0.4s ease; }
+    .tension-thresholds span.active {
+      color: var(--gold-light);
+      text-shadow: 0 0 12px rgba(201,168,76,0.5);
     }
 
     .hero-ctas {
@@ -406,8 +512,18 @@
       transform-origin: left;
       transition: transform 0.3s ease;
     }
+    .lore-card-corner {
+      position: absolute;
+      width: 9px; height: 9px;
+      border: 1px solid var(--gold);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .lore-card-corner.tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+    .lore-card-corner.bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
     .lore-card:hover { background: var(--panel-2); }
     .lore-card:hover::before { transform: scaleX(1); }
+    .lore-card:hover .lore-card-corner { opacity: 0.7; }
 
     .lore-card-icon { font-size: 1.6rem; }
     .lore-card-title {
@@ -478,6 +594,21 @@
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--border), transparent);
       margin: 0 48px;
+    }
+
+    /* ─── REVEAL ON SCROLL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transition-delay: var(--reveal-delay, 0s);
+    }
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { transition: none; opacity: 1; transform: none; }
     }
 
     /* ════════════════════════════════════════
@@ -945,6 +1076,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
     <div class="hero-stars"></div>
 
     <div class="hero-content">
@@ -955,8 +1087,32 @@
       </div>
       <p class="hero-tagline">
         Ils s'endormirent humains. Ils se réveillèrent dieux.<br/>
-        Mille ans de silence les ont transformés — le monde ne les reconnaît plus.
+        Six mille ans de silence les ont transformés et le monde ne les reconnaît plus.
       </p>
+
+      <div class="tension-panel" id="tension-panel">
+        <div class="tension-corner tl"></div>
+        <div class="tension-corner tr"></div>
+        <div class="tension-corner bl"></div>
+        <div class="tension-corner br"></div>
+        <div class="tension-header">
+          <span class="tension-label">Tension du Monde</span>
+          <span class="tension-value"><span id="tension-number">0</span>%</span>
+        </div>
+        <div class="tension-bar">
+          <div class="tension-bar-fill" id="tension-fill"></div>
+        </div>
+        <div class="tension-ticks">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="tension-thresholds">
+          <span id="thresh-0">Paix Fragile</span>
+          <span id="thresh-1">Tensions Croissantes</span>
+          <span id="thresh-2">Guerre Ouverte</span>
+        </div>
+      </div>
+
       <div class="hero-ctas">
         <button class="btn btn-primary" onclick="openModal('modal-lore')">Découvrir le Lore</button>
         <button class="btn btn-ghost" onclick="openModal('modal-login')">Rejoindre l'Univers</button>
@@ -971,35 +1127,40 @@
 
   <!-- SECTION: EXPLORER -->
   <section class="section">
-    <div class="section-eyebrow">Explorer l'Univers</div>
-    <h2 class="section-title">Un monde né des <em>cendres</em><br/>d'une civilisation oubliée</h2>
+    <div class="section-eyebrow reveal">Explorer l'Univers</div>
+    <h2 class="section-title reveal" style="--reveal-delay:0.1s">Un monde né des <em>cendres</em><br/>d'une civilisation oubliée</h2>
 
     <div class="lore-grid">
-      <a href="monde.html" class="lore-card">
+      <a href="monde.html" class="lore-card reveal" style="--reveal-delay:0.05s">
+        <div class="lore-card-corner tr"></div><div class="lore-card-corner bl"></div>
         <div class="lore-card-icon">🌍</div>
         <div class="lore-card-title">Monde &amp; Lieux</div>
         <p class="lore-card-desc">Royaumes, cités-états, ruines technologiques et territoires sauvages façonnés par mille ans d'oubli et de magie naissante.</p>
         <div class="lore-card-arrow">Explorer →</div>
       </a>
-      <a href="personnages.html" class="lore-card">
+      <a href="personnages.html" class="lore-card reveal" style="--reveal-delay:0.1s">
+        <div class="lore-card-corner tr"></div><div class="lore-card-corner bl"></div>
         <div class="lore-card-icon">⚜️</div>
         <div class="lore-card-title">Personnages &amp; Factions</div>
         <p class="lore-card-desc">Les Neo Gods reveillés, les cultes qui les vénèrent, les factions qui les craignent. Chaque faction a ses propres ambitions.</p>
         <div class="lore-card-arrow">Rencontrer →</div>
       </a>
-      <a href="magie.html" class="lore-card">
+      <a href="magie.html" class="lore-card reveal" style="--reveal-delay:0.15s">
+        <div class="lore-card-corner tr"></div><div class="lore-card-corner bl"></div>
         <div class="lore-card-icon">✦</div>
         <div class="lore-card-title">Magie &amp; Systèmes</div>
         <p class="lore-card-desc">Issue de siècles de pollution chimique et radioactive, la magie imprègne tout — et les dormants en sont saturés.</p>
         <div class="lore-card-arrow">Comprendre →</div>
       </a>
-      <a href="race.html" class="lore-card">
+      <a href="race.html" class="lore-card reveal" style="--reveal-delay:0.05s">
+        <div class="lore-card-corner tr"></div><div class="lore-card-corner bl"></div>
         <div class="lore-card-icon">🐺</div>
         <div class="lore-card-title">Race &amp; Lignées</div>
         <p class="lore-card-desc">Humains, dormants éveillés et créatures façonnées par la magie naissante — chaque race porte les marques de mille ans de mutation.</p>
         <div class="lore-card-arrow">Découvrir →</div>
       </a>
-      <a href="chronologie.html" class="lore-card">
+      <a href="chronologie.html" class="lore-card reveal" style="--reveal-delay:0.1s">
+        <div class="lore-card-corner tr"></div><div class="lore-card-corner bl"></div>
         <div class="lore-card-icon">📜</div>
         <div class="lore-card-title">Chronologie &amp; Histoire</div>
         <p class="lore-card-desc">De l'Ancienne Ère à la Nouvelle Aube — cinq époques qui ont redessiné les contours d'un monde que personne ne reconnaît plus.</p>
@@ -1012,27 +1173,27 @@
 
   <!-- SECTION: CHRONOLOGIE -->
   <section class="section">
-    <div class="section-eyebrow">Les Grandes Époques</div>
-    <h2 class="section-title">Cinq ères. Un seul fil.</h2>
+    <div class="section-eyebrow reveal">Les Grandes Époques</div>
+    <h2 class="section-title reveal" style="--reveal-delay:0.1s">Cinq ères. Un seul fil.</h2>
 
     <div class="era-timeline">
-      <div class="era-item" onclick="openCalendar(0)">
+      <div class="era-item reveal" style="--reveal-delay:0.05s" onclick="openCalendar(0)">
         <div class="era-dot"></div>
         <div class="era-name">Ancienne Ère</div>
       </div>
-      <div class="era-item" onclick="openCalendar(1)">
+      <div class="era-item reveal" style="--reveal-delay:0.1s" onclick="openCalendar(1)">
         <div class="era-dot"></div>
         <div class="era-name">Ère des Cataclysmes</div>
       </div>
-      <div class="era-item" onclick="openCalendar(2)">
+      <div class="era-item reveal" style="--reveal-delay:0.15s" onclick="openCalendar(2)">
         <div class="era-dot"></div>
         <div class="era-name">Ère du Faux Espoir</div>
       </div>
-      <div class="era-item" onclick="openCalendar(3)">
+      <div class="era-item reveal" style="--reveal-delay:0.2s" onclick="openCalendar(3)">
         <div class="era-dot"></div>
         <div class="era-name">Ère du Déclin</div>
       </div>
-      <div class="era-item" onclick="openCalendar(4)">
+      <div class="era-item reveal" style="--reveal-delay:0.25s" onclick="openCalendar(4)">
         <div class="era-dot"></div>
         <div class="era-name">Nouvelle Aube — 7060</div>
       </div>
@@ -1275,7 +1436,52 @@ function enterSite() {
   const main = document.getElementById('page-main');
   main.style.display = 'block';
   setTimeout(() => main.classList.add('visible'), 50);
+  setTimeout(startTensionGauge, 700);
 }
+
+/* ─── JAUGE TENSION DU MONDE ─── */
+function startTensionGauge() {
+  const TARGET = 71; // niveau de tension actuel du monde (narratif)
+  const fill = document.getElementById('tension-fill');
+  const numEl = document.getElementById('tension-number');
+  if (!fill || !numEl) return;
+
+  fill.style.width = TARGET + '%';
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) {
+    numEl.textContent = TARGET;
+  } else {
+    const duration = 1800;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      numEl.textContent = Math.floor(eased * TARGET);
+      if (p < 1) requestAnimationFrame(tick);
+      else numEl.textContent = TARGET;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const thresholds = ['thresh-0', 'thresh-1', 'thresh-2'];
+  const activeIdx = TARGET < 33 ? 0 : TARGET < 66 ? 1 : 2;
+  thresholds.forEach((id, i) => {
+    document.getElementById(id).classList.toggle('active', i === activeIdx);
+  });
+}
+
+/* ─── RÉVÉLATION AU DÉFILEMENT ─── */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 /* ─── CANVAS PARTICLES ─── */
 const canvas = document.getElementById('loading-canvas');
