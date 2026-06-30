@@ -580,7 +580,7 @@
 <div class="creator-main">
 
   <!-- FICHE EN DIRECT -->
-  <aside class="fiche-panel">
+  <aside class="fiche-panel" id="fiche-panel">
     <div class="portrait-frame" id="portrait-frame" tabindex="0" role="button" aria-label="Charger un portrait">
       <div class="portrait-corner tl"></div>
       <div class="portrait-corner tr"></div>
@@ -593,7 +593,7 @@
         <div class="portrait-placeholder-sub">Cliquez ou glissez une image</div>
       </div>
     </div>
-    <input type="file" accept="image/*" id="portrait-input" class="portrait-input" />
+    <input type="file" accept="image/*" id="portrait-input" class="portrait-input" aria-label="Choisir un fichier image pour le portrait" />
     <div class="portrait-actions">
       <button type="button" class="portrait-btn" id="portrait-clear">Retirer le portrait</button>
     </div>
@@ -671,8 +671,8 @@
         </div>
       </div>
       <div class="field">
-        <label class="field-label">Sexe</label>
-        <div class="segmented" id="segment-sexe">
+        <label class="field-label" id="sexe-label">Sexe</label>
+        <div class="segmented" id="segment-sexe" role="group" aria-labelledby="sexe-label">
           <button type="button" data-val="Masculin">Masculin</button>
           <button type="button" data-val="Féminin">Féminin</button>
           <button type="button" data-val="Autre">Autre</button>
@@ -723,7 +723,7 @@
       <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.7; margin-bottom:14px;">
         La magie naissante (Mana) et la foi des cultes (Mantra) tirent votre personnage dans deux directions. Où se situe-t-il ?
       </p>
-      <input type="range" id="range-align" min="0" max="100" value="50" class="align-slider" />
+      <input type="range" id="range-align" min="0" max="100" value="50" class="align-slider" aria-label="Alignement entre Mana et Mantra" />
       <div class="align-slider-labels">
         <span>Mana Pur</span>
         <span>Équilibre</span>
@@ -740,20 +740,20 @@
       <div class="budget-bar"><div class="budget-fill" id="budget-fill"></div></div>
 
       <div class="stat-field">
-        <div class="stat-field-head"><span class="stat-field-name">Attaque</span><span class="stat-field-val" id="slider-val-atq">1</span></div>
-        <input type="range" min="1" max="10" value="1" class="stat-slider" id="slider-atq" data-stat="atq" />
+        <div class="stat-field-head"><span class="stat-field-name" id="label-atq">Attaque</span><span class="stat-field-val" id="slider-val-atq">1</span></div>
+        <input type="range" min="1" max="10" value="1" class="stat-slider" id="slider-atq" data-stat="atq" aria-labelledby="label-atq" />
       </div>
       <div class="stat-field">
-        <div class="stat-field-head"><span class="stat-field-name">Défense</span><span class="stat-field-val" id="slider-val-def">1</span></div>
-        <input type="range" min="1" max="10" value="1" class="stat-slider" id="slider-def" data-stat="def" />
+        <div class="stat-field-head"><span class="stat-field-name" id="label-def">Défense</span><span class="stat-field-val" id="slider-val-def">1</span></div>
+        <input type="range" min="1" max="10" value="1" class="stat-slider" id="slider-def" data-stat="def" aria-labelledby="label-def" />
       </div>
       <div class="stat-field">
-        <div class="stat-field-head"><span class="stat-field-name">Mobilité</span><span class="stat-field-val" id="slider-val-mob">1</span></div>
-        <input type="range" min="1" max="10" value="1" class="stat-slider" id="slider-mob" data-stat="mob" />
+        <div class="stat-field-head"><span class="stat-field-name" id="label-mob">Mobilité</span><span class="stat-field-val" id="slider-val-mob">1</span></div>
+        <input type="range" min="1" max="10" value="1" class="stat-slider" id="slider-mob" data-stat="mob" aria-labelledby="label-mob" />
       </div>
       <div class="stat-field">
-        <div class="stat-field-head"><span class="stat-field-name">Aura</span><span class="stat-field-val" id="slider-val-aura">1</span></div>
-        <input type="range" min="1" max="10" value="1" class="stat-slider" id="slider-aura" data-stat="aura" />
+        <div class="stat-field-head"><span class="stat-field-name" id="label-aura">Aura</span><span class="stat-field-val" id="slider-val-aura">1</span></div>
+        <input type="range" min="1" max="10" value="1" class="stat-slider" id="slider-aura" data-stat="aura" aria-labelledby="label-aura" />
       </div>
     </div>
 
@@ -999,7 +999,8 @@ const downloadStatus = document.getElementById('download-status');
 
 downloadBtn.addEventListener('click', () => {
   if (typeof html2canvas === 'undefined') {
-    downloadStatus.textContent = 'Indisponible hors-ligne (bibliothèque non chargée).';
+    downloadStatus.textContent = 'Bibliothèque html2canvas non chargée (vérifie ta connexion ou un bloqueur de script).';
+    console.error('html2canvas est undefined — le script CDN n\'a probablement pas chargé.');
     return;
   }
   downloadBtn.disabled = true;
@@ -1008,19 +1009,23 @@ downloadBtn.addEventListener('click', () => {
   html2canvas(document.getElementById('fiche-panel'), {
     backgroundColor: '#12131A',
     scale: 2,
-    useCORS: true
+    useCORS: true,
+    logging: true
   }).then(canvas => {
     const link = document.createElement('a');
     const rawName = document.getElementById('input-prenom').value.trim();
-    const safeName = rawName ? rawName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-') : 'mon-oc';
+    const safeName = rawName
+      ? rawName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-')
+      : 'mon-oc';
     link.download = 'gods-above-' + safeName + '.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
     downloadStatus.textContent = 'Fiche téléchargée.';
     downloadBtn.disabled = false;
     setTimeout(() => { downloadStatus.textContent = ''; }, 3000);
-  }).catch(() => {
-    downloadStatus.textContent = 'Échec de la génération. Réessaie.';
+  }).catch((err) => {
+    console.error('Erreur html2canvas :', err);
+    downloadStatus.textContent = 'Échec : ' + (err && err.message ? err.message : 'erreur inconnue (voir console)');
     downloadBtn.disabled = false;
   });
 });
