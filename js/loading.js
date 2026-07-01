@@ -1,13 +1,25 @@
+console.log("loading.js chargé");
+
 let loadingDone = false;
 
 function initLoadingScreen() {
+  console.log("Initialisation du loader");
+
   const loader = document.getElementById("screen-loading");
   const enterBtn = document.getElementById("enter-btn");
   const loadingPct = document.getElementById("loading-pct");
 
-  if (!loader) return;
+  console.log("Loader :", loader);
+  console.log("Bouton :", enterBtn);
+  console.log("Pourcentage :", loadingPct);
+
+  if (!loader) {
+    console.error("Le loader est introuvable !");
+    return;
+  }
 
   if (sessionStorage.getItem("gaLoaderSeen") === "true") {
+    console.log("Loader déjà vu, suppression.");
     loader.remove();
     return;
   }
@@ -22,6 +34,8 @@ function initLoadingScreen() {
       clearInterval(loadInterval);
       loadingDone = true;
 
+      console.log("Chargement terminé.");
+
       if (enterBtn) {
         enterBtn.classList.add("ready");
       }
@@ -33,11 +47,20 @@ function initLoadingScreen() {
   }, 60);
 
   window.enterSite = function () {
+    console.log("Bouton Entrer cliqué.");
+
+    if (!loadingDone) {
+      console.log("Chargement pas terminé.");
+      return;
+    }
+
     sessionStorage.setItem("gaLoaderSeen", "true");
+
     loader.classList.add("hidden");
 
     setTimeout(() => {
       loader.remove();
+      console.log("Loader supprimé.");
     }, 900);
   };
 }
