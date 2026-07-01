@@ -1,46 +1,35 @@
 const routes = {
   accueil: "accueil.html",
-  chronologie: "chronologie.html",
   magie: "magie.html",
+  chronologie: "chronologie.html",
   race: "race.html",
   unite: "unité.html",
   creation: "creation-personnage.html"
 };
 
-const app = document.getElementById("app");
+const app = document.querySelector("#app");
 
-async function loadPage(routeName) {
-  const file = routes[routeName] || routes.accueil;
+async function loadRoute(route) {
+  const file = routes[route] || routes.accueil;
 
-  try {
-    const response = await fetch(file);
-    const html = await response.text();
+  const response = await fetch(file);
+  const html = await response.text();
 
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
 
-    const bodyContent = doc.body.innerHTML;
-    app.innerHTML = bodyContent;
-
-    document.querySelectorAll("[data-route]").forEach(link => {
-      link.classList.toggle("active", link.dataset.route === routeName);
-    });
-
-    window.scrollTo(0, 0);
-  } catch (error) {
-    app.innerHTML = "<h1>Erreur de chargement</h1><p>La page n'a pas pu être chargée.</p>";
-    console.error(error);
-  }
+  app.innerHTML = doc.body.innerHTML;
+  window.scrollTo(0, 0);
 }
 
-function getRouteFromHash() {
+function getRoute() {
   return location.hash.replace("#/", "") || "accueil";
 }
 
 window.addEventListener("hashchange", () => {
-  loadPage(getRouteFromHash());
+  loadRoute(getRoute());
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadPage(getRouteFromHash());
+  loadRoute(getRoute());
 });
