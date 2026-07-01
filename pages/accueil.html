@@ -1385,21 +1385,11 @@ const loadInterval = setInterval(() => {
 
 function enterSite() {
   if (!loadingDone) return;
-
-  const loader = document.getElementById('screen-loading');
-  if (loader) {
-    loader.classList.add('hidden');
-  }
-
+  document.getElementById('screen-loading').classList.add('hidden');
   const main = document.getElementById('page-main');
-  if (main) {
-    main.style.display = 'block';
-    setTimeout(() => main.classList.add('visible'), 50);
-  }
-
-  if (typeof startTensionGauge === "function") {
-    setTimeout(startTensionGauge, 700);
-  }
+  main.style.display = 'block';
+  setTimeout(() => main.classList.add('visible'), 50);
+  setTimeout(startTensionGauge, 700);
 }
 
 /* ─── JAUGE TENSION DU MONDE ─── */
