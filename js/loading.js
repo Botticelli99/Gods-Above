@@ -1,6 +1,6 @@
 let loadingDone = false;
 
-window.addEventListener("DOMContentLoaded", () => {
+function initLoadingScreen() {
   const loader = document.getElementById("screen-loading");
   const enterBtn = document.getElementById("enter-btn");
   const loadingPct = document.getElementById("loading-pct");
@@ -21,7 +21,10 @@ window.addEventListener("DOMContentLoaded", () => {
       pct = 100;
       clearInterval(loadInterval);
       loadingDone = true;
-      enterBtn?.classList.add("ready");
+
+      if (enterBtn) {
+        enterBtn.classList.add("ready");
+      }
     }
 
     if (loadingPct) {
@@ -30,8 +33,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }, 60);
 
   window.enterSite = function () {
-    if (!loadingDone) return;
-
     sessionStorage.setItem("gaLoaderSeen", "true");
     loader.classList.add("hidden");
 
@@ -39,4 +40,10 @@ window.addEventListener("DOMContentLoaded", () => {
       loader.remove();
     }, 900);
   };
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initLoadingScreen);
+} else {
+  initLoadingScreen();
+}
