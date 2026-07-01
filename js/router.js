@@ -1,81 +1,46 @@
+const routes = {
+  accueil: "accueil.html",
+  chronologie: "chronologie.html",
+  magie: "magie.html",
+  race: "race.html",
+  unite: "unité.html",
+  creation: "creation-personnage.html"
+};
 
-(() => {
-  const frame = document.getElementById("ga-frame");
-  const navLinks = document.querySelectorAll("[data-route]");
-  const title = document.getElementById("ga-current-page");
+const app = document.getElementById("app");
 
-  const routes = {
-    "index": "pages/index.html",
-    "accueil": "pages/index.html",
-    "chronologie": "pages/chronologie.html",
-    "magie": "pages/magie.html",
-    "race": "pages/race.html",
-    "unité": "pages/unité.html",
-    "unite": "pages/unité.html",
-    "creation-personnage": "pages/creation-personnage.html",
-    "monde": "pages/monde.html",
-    "personnages": "pages/personnages.html"
-  };
+async function loadPage(routeName) {
+  const file = routes[routeName] || routes.accueil;
 
-  const labels = {
-    index: "Accueil",
-    accueil: "Accueil",
-    chronologie: "Chronologie",
-    magie: "Magie",
-    race: "Races",
-    unité: "Unités",
-    unite: "Unités",
-    "creation-personnage": "Création",
-    monde: "Monde",
-    personnages: "Personnages"
-  };
+  try {
+    const response = await fetch(file);
+    const html = await response.text();
 
-  function normalize(route) {
-    route = (route || location.hash.replace(/^#\/?/, "") || "index").trim();
-    route = route.replace(/\.html$/i, "");
-    if (route === "") route = "index";
-    return route;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+
+    const bodyContent = doc.body.innerHTML;
+    app.innerHTML = bodyContent;
+
+    document.querySelectorAll("[data-route]").forEach(link => {
+      link.classList.toggle("active", link.dataset.route === routeName);
+    });
+
+    window.scrollTo(0, 0);
+  } catch (error) {
+    app.innerHTML = "<h1>Erreur de chargement</h1><p>La page n'a pas pu être chargée.</p>";
+    console.error(error);
   }
+}
 
-  function setActive(route) {
-    navLinks.forEach(a => a.classList.toggle("active", a.dataset.route === route || (route === "unite" && a.dataset.route === "unité")));
-    title.textContent = labels[route] || route;
-  }
+function getRouteFromHash() {
+  return location.hash.replace("#/", "") || "accueil";
+}
 
-  function go(route, replace = false) {
-    route = normalize(route);
-    const src = routes[route] || routes.index;
-    setActive(route);
-    frame.src = src;
-    const hash = "#/" + route;
-    if (location.hash !== hash) {
-      if (replace) history.replaceState(null, "", hash);
-      else history.pushState(null, "", hash);
-    }
-  }
+window.addEventListener("hashchange", () => {
+  loadPage(getRouteFromHash());
+});
 
-  document.addEventListener("click", (event) => {
-    const link = event.target.closest("[data-route]");
-    if (!link) return;
-    event.preventDefault();
-    go(link.dataset.route);
-  });
-
-  window.addEventListener("hashchange", () => go(normalize(), true));
-
-  frame.addEventListener("load", () => {
-    try {
-      const url = new URL(frame.contentWindow.location.href);
-      const file = url.pathname.split("/").pop() || "index.html";
-      const route = normalize(file);
-      if (routes[route] && location.hash !== "#/" + route) {
-        history.replaceState(null, "", "#/" + route);
-        setActive(route);
-      }
-    } catch (err) {
-      // Ignore si le navigateur bloque l'accès.
-    }
-  });
-
-  go(normalize(), true);
-})();
+document.addEventListener("DOMContentLoaded", () => {
+  loadPage(getRouteFromHash());
+});
