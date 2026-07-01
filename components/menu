@@ -1,0 +1,13 @@
+<nav class="site-nav">
+  <a href="#/accueil" class="nav-logo" data-route="accueil">GODS ABOVE</a>
+  <ul class="nav-links">
+    <li><a href="#/accueil" data-route="accueil">Accueil</a></li>
+    <li><a href="#/magie" data-route="magie">Magie</a></li>
+    <li><a href="#/race" data-route="race">Race</a></li>
+    <li><a href="#/chronologie" data-route="chronologie">Chronologie</a></li>
+    <li><a href="#/unite" data-route="unite">Unité</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#/creation" class="nav-btn nav-btn-outline" data-route="creation">Créer mon OC</a>
+  </div>
+</nav>
