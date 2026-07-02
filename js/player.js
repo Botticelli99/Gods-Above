@@ -1,8 +1,11 @@
+console.log("player.js chargé");
 const playlist = [
   "Lunar Silver Star Story Complete (Intro) - PSX.mp3"
 ];
 
 const audio = document.querySelector("#ga-audio");
+console.log("audio :", audio);
+console.log("playBtn :", document.querySelector("#ga-play"));
 const playBtn = document.querySelector("#ga-play");
 const nextBtn = document.querySelector("#ga-next");
 const title = document.querySelector("#ga-track-title");
