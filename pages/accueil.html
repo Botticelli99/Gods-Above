@@ -1303,52 +1303,7 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-/* ─── CANVAS PARTICLES ─── */
-const canvas = document.getElementById('loading-canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-for (let i = 0; i < 120; i++) {
-  const angle = Math.random() * Math.PI * 2;
-  const radius = 150 + Math.random() * 300;
-  particles.push({
-    x: Math.cos(angle) * radius,
-    y: Math.sin(angle) * radius,
-    vx: (Math.random() - 0.5) * 0.4,
-    vy: (Math.random() - 0.5) * 0.4,
-    life: Math.random(),
-    size: Math.random() * 1.5 + 0.3,
-    gold: Math.random() > 0.6,
-  });
-}
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const cx = canvas.width / 2;
-  const cy = canvas.height / 2;
-  particles.forEach(p => {
-    p.x += p.vx + (- p.x * 0.0002);
-    p.y += p.vy + (- p.y * 0.0002);
-    p.life += 0.005;
-    if (p.life > 1) p.life = 0;
-    const alpha = Math.sin(p.life * Math.PI) * 0.6;
-    ctx.beginPath();
-    ctx.arc(cx + p.x, cy + p.y, p.size, 0, Math.PI * 2);
-    ctx.fillStyle = p.gold
-      ? `rgba(201,168,76,${alpha})`
-      : `rgba(143,168,192,${alpha * 0.5})`;
-    ctx.fill();
-  });
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
 
 /* ─── MODALS ─── */
 function openModal(id) {
