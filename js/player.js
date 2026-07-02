@@ -1,6 +1,6 @@
 console.log("player.js chargé");
 const playlist = [
-  "Lunar Silver Star Story Complete (Intro) - PSX.mp3"
+  "music/Lunar Silver Star Story Complete (Intro) - PSX.mp3"
 ];
 
 const audio = document.querySelector("#ga-audio");
