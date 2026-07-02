@@ -1,5 +1,5 @@
 const playlist = [
-  // Exemple : "music/theme.mp3"
+  "Lunar Silver Star Story Complete (Intro) - PSX.mp3"
 ];
 
 const audio = document.querySelector("#ga-audio");
