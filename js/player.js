@@ -3,7 +3,7 @@ console.log("Nouveau lecteur chargé");
   // ==== PLAYLIST : modifie / complète ce tableau ====
   var gaPlaylist = [
     {
-      src: "music/lunar-intro.mp3",
+      src: "music/Lunar Silver Star Story Complete (Intro) - PSX.mp3",
       titre: "Lunar Silver Star Story",
       artiste: "PSX",
       cover: ""
