@@ -21,7 +21,12 @@ function loadTrack(i) {
 
 function updatePlayLabel() {
   if (!playBtn || !audio) return;
-  playBtn.textContent = audio.paused ? "Play" : "Pause";
+  playBtn.textContent = audio.paused ? "▶" : "❚❚";
+
+playBtn.setAttribute(
+  "aria-label",
+  audio.paused ? "Lire la musique" : "Mettre en pause"
+);
 }
 
 if (audio && playBtn && nextBtn && volume) {
