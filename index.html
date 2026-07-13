@@ -69,12 +69,42 @@
   <main id="ga-app"></main>
 
   <div class="music-player" aria-label="Lecteur musical">
-    <audio id="ga-audio"></audio>
-    <button id="ga-play" type="button">Play</button>
-    <button id="ga-next" type="button">Suivant</button>
+  <audio id="ga-audio"></audio>
+
+  <button
+    id="ga-play"
+    class="music-btn music-play-btn"
+    type="button"
+    aria-label="Lire la musique"
+  >
+    ▶
+  </button>
+
+  <button
+    id="ga-next"
+    class="music-btn"
+    type="button"
+    aria-label="Piste suivante"
+  >
+    ⏭
+  </button>
+
+  <div class="music-track">
+    <span class="music-track-label">Ambiance</span>
     <span id="ga-track-title">Aucune musique</span>
-    <input id="ga-volume" type="range" min="0" max="1" step="0.01" value="0.45" aria-label="Volume" />
   </div>
+
+  <input
+    id="ga-volume"
+    class="music-volume"
+    type="range"
+    min="0"
+    max="1"
+    step="0.01"
+    value="0.45"
+    aria-label="Volume"
+  />
+</div>
 
   <script src="js/router.js"></script>
   <script src="js/loading.js"></script>
