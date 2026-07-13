@@ -1,3 +1,4 @@
+console.log("Nouveau lecteur chargé");
 (function() {
   // ==== PLAYLIST : modifie / complète ce tableau ====
   var gaPlaylist = [
