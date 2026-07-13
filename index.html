@@ -69,43 +69,50 @@
 
   <main id="ga-app"></main>
 
-  <div class="music-player" aria-label="Lecteur musical">
-  <audio id="ga-audio"></audio>
-
-  <button
-    id="ga-play"
-    class="music-btn music-play-btn"
-    type="button"
-    aria-label="Lire la musique"
-  >
-    ▶
-  </button>
-
-  <button
-    id="ga-next"
-    class="music-btn"
-    type="button"
-    aria-label="Piste suivante"
-  >
-    ⏭
-  </button>
-
-  <div class="music-track">
-    <span class="music-track-label">Ambiance</span>
-    <span id="ga-track-title">Aucune musique</span>
+  <div class="ga-player" id="gaPlayer">
+  <div class="ga-player__head">
+    <button class="ga-player__toggle" id="gaToggle" aria-label="Réduire / agrandir le lecteur">
+      <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+    </button>
   </div>
 
-  <input
-    id="ga-volume"
-    class="music-volume"
-    type="range"
-    min="0"
-    max="1"
-    step="0.01"
-    value="0.45"
-    aria-label="Volume"
-  />
+  <div class="ga-player__cover" id="gaCover">Aurellon</div>
+
+  <div class="ga-player__row">
+    <p class="ga-player__title" id="gaTitle">Titre du morceau</p>
+
+    <div class="ga-player__controls">
+      <button class="ga-player__btn" id="gaPrev" aria-label="Précédent">
+        <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l10-6v12z"/></svg>
+      </button>
+      <button class="ga-player__btn ga-player__btn--play" id="gaPlay" aria-label="Lecture / Pause">
+        <svg id="gaPlayIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button class="ga-player__btn" id="gaNext" aria-label="Suivant">
+        <svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM4.5 6l10 6-10 6z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="ga-player__artist" id="gaArtist">Artiste / Album</p>
+
+  <div class="ga-player__bar">
+    <span class="ga-player__time" id="gaCurrent">0:00</span>
+    <input type="range" class="ga-player__progress" id="gaProgress" value="0" min="0" max="100" step="0.1">
+    <span class="ga-player__time" id="gaDuration">0:00</span>
+  </div>
+
+  <div class="ga-player__footer">
+    <div class="ga-player__vol">
+      <svg viewBox="0 0 24 24"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0 0 14 7.7v8.6a4.5 4.5 0 0 0 2.5-4.3z"/></svg>
+      <input type="range" id="gaVolume" min="0" max="1" step="0.01" value="0.8">
+    </div>
+    <span class="ga-player__track-index" id="gaIndex">1 / 1</span>
+  </div>
+
+  <audio id="gaAudio" preload="metadata"></audio>
 </div>
+
 
   <script src="js/router.js"></script>
   <script src="js/loading.js"></script>
