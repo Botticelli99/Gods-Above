@@ -4,6 +4,7 @@ const GA_ROUTES = {
   chronologie: { title: "Gods Above — Chronologie & Histoire", file: "pages/chronologie.html" },
   race: { title: "Gods Above — Race & Lignées", file: "pages/race.html" },
   unite: { title: "Gods Above — Unités", file: "pages/unite.html" },
+  personnages: { title: "Personnages marquants — Gods Above", file: "pages/personnages/indexpersonnage.html" },
   creation: { title: "Gods Above — Création de personnage", file: "pages/creation.html" }
 };
 
