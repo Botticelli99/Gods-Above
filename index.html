@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gods Above</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Raleway:wght@300;400;500;600&family=Cinzel+Decorative:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/loading.css" />
+  <link rel="stylesheet" href="css/player.css" />
+</head>
+<body>
+  <!-- ════════════════════════════════════
+     LOADING SCREEN
+════════════════════════════════════ -->
+<div id="screen-loading">
+<canvas id="loading-canvas"></canvas>
+<div class="loading-seal">
+<svg class="seal-svg" fill="none" viewbox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+<g class="seal-ring">
+<circle cx="80" cy="80" opacity="0.6" r="72" stroke="#C9A84C" stroke-dasharray="4 8" stroke-width="0.5"></circle>
+<circle cx="80" cy="80" opacity="0.3" r="65" stroke="#C9A84C" stroke-width="0.3"></circle>
+<line opacity="0.8" stroke="#C9A84C" stroke-width="1.5" x1="80" x2="80" y1="8" y2="16"></line>
+<line opacity="0.8" stroke="#C9A84C" stroke-width="1.5" x1="152" x2="144" y1="80" y2="80"></line>
+<line opacity="0.8" stroke="#C9A84C" stroke-width="1.5" x1="80" x2="80" y1="152" y2="144"></line>
+<line opacity="0.8" stroke="#C9A84C" stroke-width="1.5" x1="8" x2="16" y1="80" y2="80"></line>
+</g>
+<g style="animation: rotateSeal 5s linear infinite reverse; transform-origin:80px 80px;">
+<circle cx="80" cy="80" opacity="0.5" r="54" stroke="#C9A84C" stroke-dasharray="2 6" stroke-width="0.5"></circle>
+</g>
+<g opacity="0.9">
+<path d="M80 42 L84.7 68.5 L80 72 L75.3 68.5 Z" fill="#C9A84C" opacity="0.7"></path>
+<path d="M80 118 L84.7 91.5 L80 88 L75.3 91.5 Z" fill="#C9A84C" opacity="0.7"></path>
+<path d="M42 80 L68.5 75.3 L72 80 L68.5 84.7 Z" fill="#C9A84C" opacity="0.7"></path>
+<path d="M118 80 L91.5 75.3 L88 80 L91.5 84.7 Z" fill="#C9A84C" opacity="0.7"></path>
+<path d="M57.4 57.4 L72.8 72.8 L72 80 L65.5 73.5 Z" fill="#C9A84C" opacity="0.4"></path>
+<path d="M102.6 57.4 L87.2 72.8 L88 80 L94.5 73.5 Z" fill="#C9A84C" opacity="0.4"></path>
+<path d="M57.4 102.6 L72.8 87.2 L72 80 L65.5 86.5 Z" fill="#C9A84C" opacity="0.4"></path>
+<path d="M102.6 102.6 L87.2 87.2 L88 80 L94.5 86.5 Z" fill="#C9A84C" opacity="0.4"></path>
+<circle cx="80" cy="80" fill="none" r="10" stroke="#C9A84C" stroke-width="1"></circle>
+<circle cx="80" cy="80" fill="#C9A84C" r="4"></circle>
+</g>
+</svg>
+<div class="loading-title">GODS ABOVE</div>
+<div class="loading-sub">Univers de Fiction</div>
+<div class="loading-bar-wrap">
+<div class="loading-bar" id="loading-bar"></div>
+</div>
+<div class="loading-pct" id="loading-pct">0%</div>
+<button class="enter-btn" id="enter-btn" onclick="enterSite()">
+      ENTRER DANS L'UNIVERS
+    </button>
+</div>
+</div>
+  <!-- ════════════════════════════════════
+       NAVIGATION PRINCIPALE
+       Images : ajoutez les fichiers dans images/menu/
+  ════════════════════════════════════ -->
+  <nav class="site-nav" aria-label="Navigation principale">
+    <a href="#/accueil" class="nav-logo" data-route="accueil">GODS ABOVE</a>
+
+    <input class="nav-menu-toggle" type="checkbox" id="nav-menu-toggle" aria-label="Ouvrir le menu">
+    <label class="nav-menu-button" for="nav-menu-toggle" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </label>
+
+    <ul class="nav-links">
+      <li class="nav-item">
+        <a class="nav-label" href="#/accueil" data-route="accueil">Accueil</a>
+      </li>
+
+      <!-- CONTEXTE -->
+      <li class="nav-item">
+        <div class="nav-dropdown">
+          <span class="nav-label" tabindex="0">Contexte <span class="nav-chevron">▾</span></span>
+          <div class="nav-panel">
+            <div class="nav-panel__title">Contexte de Gods Above</div>
+            <div class="nav-panel__grid">
+              <a class="menu-card" href="#/chronologie">
+                <span class="menu-card__image" role="img" aria-label="Illustration de l'histoire" style="--menu-image:url('images/menu/contexte/histoire.webp')"></span>
+                <span class="menu-card__title">Histoire</span>
+              </a>
+              <a class="menu-card" href="#/chronologie">
+                <span class="menu-card__image" role="img" aria-label="Illustration de la chronologie" style="--menu-image:url('images/menu/contexte/chronologie.webp')"></span>
+                <span class="menu-card__title">Chronologie</span>
+              </a>
+              <div class="menu-card is-disabled" aria-disabled="true">
+                <span class="menu-card__image" role="img" aria-label="Illustration des personnages" style="--menu-image:url('images/menu/contexte/personnages.webp')"></span>
+                <span class="menu-card__title">Personnages</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- ESPÈCES -->
+      <li class="nav-item">
+        <div class="nav-dropdown">
+          <span class="nav-label" tabindex="0">Espèces <span class="nav-chevron">▾</span></span>
+          <div class="nav-panel">
+            <div class="nav-panel__title">Espèces de Gods Above</div>
+            <div class="nav-panel__grid">
+              <a class="menu-card" href="#/race">
+                <span class="menu-card__image" role="img" aria-label="Illustration des races" style="--menu-image:url('images/menu/especes/races.webp')"></span>
+                <span class="menu-card__title">Races</span>
+              </a>
+              <div class="menu-card is-disabled" aria-disabled="true">
+                <span class="menu-card__image" role="img" aria-label="Illustration de la faune" style="--menu-image:url('images/menu/especes/faune.webp')"></span>
+                <span class="menu-card__title">Faune</span>
+              </div>
+              <div class="menu-card is-disabled" aria-disabled="true">
+                <span class="menu-card__image" role="img" aria-label="Illustration de la flore" style="--menu-image:url('images/menu/especes/flore.webp')"></span>
+                <span class="menu-card__title">Flore</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- EXPLORER -->
+      <li class="nav-item">
+        <div class="nav-dropdown">
+          <span class="nav-label" tabindex="0">Explorer <span class="nav-chevron">▾</span></span>
+          <div class="nav-panel">
+            <div class="nav-panel__title">Explorer les terres</div>
+            <div class="nav-panel__grid">
+              <div class="menu-card is-disabled" aria-disabled="true">
+                <span class="menu-card__image" role="img" aria-label="Illustration de la carte du monde" style="--menu-image:url('images/menu/explorer/carte.webp')"></span>
+                <span class="menu-card__title">Carte du monde</span>
+              </div>
+              <div class="menu-card is-disabled" aria-disabled="true">
+                <span class="menu-card__image" role="img" aria-label="Illustration des régions" style="--menu-image:url('images/menu/explorer/regions.webp')"></span>
+                <span class="menu-card__title">Régions</span>
+              </div>
+              <div class="menu-card is-disabled" aria-disabled="true">
+                <span class="menu-card__image" role="img" aria-label="Illustration des lieux remarquables" style="--menu-image:url('images/menu/explorer/lieux.webp')"></span>
+                <span class="menu-card__title">Lieux remarquables</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- ENCYCLOPÉDIE -->
+      <li class="nav-item">
+        <div class="nav-dropdown">
+          <span class="nav-label" tabindex="0">Encyclopédie <span class="nav-chevron">▾</span></span>
+          <div class="nav-panel nav-panel--wide">
+            <div class="nav-panel__title">Encyclopédie</div>
+            <div class="nav-panel__grid nav-panel__grid--four">
+              <div class="menu-card is-disabled" aria-disabled="true">
+                <span class="menu-card__image" role="img" aria-label="Illustration des factions" style="--menu-image:url('images/menu/encyclopedie/factions.webp')"></span>
+                <span class="menu-card__title">Factions</span>
+              </div>
+              <a class="menu-card" href="#/magie">
+                <span class="menu-card__image" role="img" aria-label="Illustration de la magie" style="--menu-image:url('images/menu/encyclopedie/magie.webp')"></span>
+                <span class="menu-card__title">Magie</span>
+              </a>
+              <a class="menu-card" href="#/unite">
+                <span class="menu-card__image" role="img" aria-label="Illustration des unités" style="--menu-image:url('images/menu/encyclopedie/unites.webp')"></span>
+                <span class="menu-card__title">Unités</span>
+              </a>
+              <div class="menu-card is-disabled" aria-disabled="true">
+                <span class="menu-card__image" role="img" aria-label="Illustration des artefacts" style="--menu-image:url('images/menu/encyclopedie/artefacts.webp')"></span>
+                <span class="menu-card__title">Artefacts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- COMMUNAUTÉ -->
+      <li class="nav-item">
+        <div class="nav-dropdown">
+          <span class="nav-label" tabindex="0">Communauté <span class="nav-chevron">▾</span></span>
+          <div class="nav-panel">
+            <div class="nav-panel__title">Communauté</div>
+            <div class="nav-panel__grid">
+              <div class="menu-card is-disabled" aria-disabled="true">
+                <span class="menu-card__image" role="img" aria-label="Illustration de Discord" style="--menu-image:url('images/menu/communaute/discord.webp')"></span>
+                <span class="menu-card__title">Discord</span>
+              </div>
+              <div class="menu-card is-disabled" aria-disabled="true">
+                <span class="menu-card__image" role="img" aria-label="Illustration des actualités" style="--menu-image:url('images/menu/communaute/actualites.webp')"></span>
+                <span class="menu-card__title">Actualités</span>
+              </div>
+              <div class="menu-card is-disabled" aria-disabled="true">
+                <span class="menu-card__image" role="img" aria-label="Illustration des crédits" style="--menu-image:url('images/menu/communaute/credits.webp')"></span>
+                <span class="menu-card__title">Crédits</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="#/creation" class="nav-btn nav-btn-outline" data-route="creation">Créer mon OC</a>
+    </div>
+  </nav>
+
+  <main id="ga-app"></main>
+
+  <div class="ga-player" id="gaPlayer">
+  <div class="ga-player__head">
+    <button class="ga-player__toggle" id="gaToggle" aria-label="Réduire / agrandir le lecteur">
+      <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+    </button>
+  </div>
+
+  <div class="ga-player__cover" id="gaCover">Aurellon</div>
+
+  <div class="ga-player__row">
+    <p class="ga-player__title" id="gaTitle">Titre du morceau</p>
+
+    <div class="ga-player__controls">
+      <button class="ga-player__btn" id="gaPrev" aria-label="Précédent">
+        <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l10-6v12z"/></svg>
+      </button>
+      <button class="ga-player__btn ga-player__btn--play" id="gaPlay" aria-label="Lecture / Pause">
+        <svg id="gaPlayIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button class="ga-player__btn" id="gaNext" aria-label="Suivant">
+        <svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM4.5 6l10 6-10 6z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <p class="ga-player__artist" id="gaArtist">Artiste / Album</p>
+
+  <div class="ga-player__bar">
+    <span class="ga-player__time" id="gaCurrent">0:00</span>
+    <input type="range" class="ga-player__progress" id="gaProgress" value="0" min="0" max="100" step="0.1">
+    <span class="ga-player__time" id="gaDuration">0:00</span>
+  </div>
+
+  <div class="ga-player__footer">
+    <div class="ga-player__vol">
+      <svg viewBox="0 0 24 24"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0 0 14 7.7v8.6a4.5 4.5 0 0 0 2.5-4.3z"/></svg>
+      <input type="range" id="gaVolume" min="0" max="1" step="0.01" value="0.8">
+    </div>
+    <span class="ga-player__track-index" id="gaIndex">1 / 1</span>
+  </div>
+
+  <audio id="gaAudio" preload="metadata"></audio>
+</div>
+
+
+  <script src="js/router.js"></script>
+  <script src="js/loading.js"></script>
+  <script src="js/player.js"></script>
+</body>
+</html>
